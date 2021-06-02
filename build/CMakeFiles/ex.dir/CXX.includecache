@@ -10,14 +10,6 @@
 Base.h
 ../include/Base.h
 
-../include/AnimSpriteComponent.h
-SpriteComponent.h
-../include/SpriteComponent.h
-Person.h
-../include/Person.h
-vector
--
-
 ../include/Base.h
 SDL2/SDL.h
 -
@@ -34,29 +26,17 @@ unordered_map
 Actor.h
 ../include/Actor.h
 
-../include/Game.h
-Base.h
-../include/Base.h
+../include/InputComponent.h
+MoveComponent.h
+../include/MoveComponent.h
 
-../include/Person.h
-Actor.h
-../include/Actor.h
-stdint.h
--
-
-../include/SpriteComponent.h
-Base.h
-../include/Base.h
+../include/MoveComponent.h
 Component.h
 ../include/Component.h
 
-/home/esoman/c++code/Game/game02/src/Person.cpp
-Person.h
-/home/esoman/c++code/Game/game02/src/Person.h
-Game.h
-/home/esoman/c++code/Game/game02/src/Game.h
-AnimSpriteComponent.h
-/home/esoman/c++code/Game/game02/src/AnimSpriteComponent.h
+/home/esoman/c++code/Game/game02/src/InputComponent.cpp
+InputComponent.h
+/home/esoman/c++code/Game/game02/src/InputComponent.h
 
 /usr/local/include/eigen3/Eigen/Cholesky
 Core

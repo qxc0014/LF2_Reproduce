@@ -19,19 +19,34 @@ public:
         LeftUp,
         LeftDown,
         Left,
-        Right
+        Right,
+        Jump
     };
     //绑定game类
     Actor(class Game* owner);
     virtual ~Actor();
     //设置actor位置
     void SetPosition(Eigen::Vector2d Position) { m_Position = Position; }
+    //保存当前位置，用于跳跃
+    void SavePosition() { 
+        
+        m_OldPosition = m_Position; 
+        
+        }
     //设置actor平移速度
     void SetForwardSpeed(float speed){ mForwardSpeed = speed; }
     void SetUpdownSpeed(float speed){ mUpdownSpeed = speed; }
+    void SetJumpSpeed(float speed){ mjumpSpeed = speed; }
+    void SetJumpHeight(float height){ mjumpHeight = height; }
+    //设置actor向上跳跃的加速度
+    void SetUpAcc(float acc){ mUpAcc = acc; }
     //返回actor平移速度
     float GetForwardSpeed(){ return mForwardSpeed; }
     float GetUpdownSpeed(){ return mUpdownSpeed; }
+    float GetUpAcc(){ return mUpAcc; }
+    float GetJumpSpeed(){ return mjumpSpeed; }
+    float GetJumpHeight(){ return mjumpHeight; }
+    Eigen::Vector2d GetOldPosition(){ return m_OldPosition; }
     //设置actor方向
     void SetRotation(float Rotation) { m_Rotation = Rotation; }
     //设置actor大小
@@ -73,12 +88,17 @@ private:
     //横向速度
     float mForwardSpeed;
     float mUpdownSpeed;
+    //向上跳跃的加速度与速度
+    float mUpAcc;
+    float mjumpSpeed;
+    float mjumpHeight;
     //行走方向
     Direction m_dir;
     //上一次行走方向
     Direction m_old_dir;
     //位置
     Eigen::Vector2d m_Position;
+    Eigen::Vector2d m_OldPosition;
     //方向
     float m_Rotation;
     //大小

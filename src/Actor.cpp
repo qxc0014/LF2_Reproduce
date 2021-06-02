@@ -7,7 +7,9 @@ m_Gameowner(owner),
 m_State(EActive),
 m_old_dir(Direction::RightStanding),
 m_Rotation(0.0f),
-m_Position(Eigen::Vector2d(512.0f,300.0f))
+m_Position(Eigen::Vector2d(512.0f,300.0f)),
+mjumpSpeed(0.0f),
+mjumpHeight(0.0f)
 { 
     m_Gameowner->addActor(this);
 }

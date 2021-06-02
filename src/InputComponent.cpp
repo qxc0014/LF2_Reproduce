@@ -2,7 +2,8 @@
 
 InputComponent::InputComponent(Actor* actor,int order):
 MoveComponent(actor,order),
-mMaxForwardSpeed(100.0f)
+mMaxForwardSpeed(100.0f),
+mMaxJumpAcc(3500.0f)
 {
 }
 void InputComponent::Update(float deltaTime){
@@ -12,6 +13,8 @@ void InputComponent::ProcessInput(const uint8_t * state){
 
     float mRightSpeed = 0.0f;
 	float mDownSpeed = 0.0f;
+    float jumpacceleration = 0.0f;
+    float JumpInitSpeed = 0.0f;
 	bool ifscan = false;
 	
 	// right/left
@@ -46,7 +49,7 @@ void InputComponent::ProcessInput(const uint8_t * state){
 		ifscan = true;
 		mDownSpeed += 50.0f;
 	}
-	if (state[SDL_SCANCODE_W])
+	if(state[SDL_SCANCODE_W])
 	{
 		switch (m_owner->GetOldDir())
 		{
@@ -64,17 +67,25 @@ void InputComponent::ProcessInput(const uint8_t * state){
 		ifscan = true;
 		mDownSpeed -= 50.0f;
 	}
-
-	if(ifscan == false && (m_owner->GetOldDir() == Actor::Direction::Left || m_owner->GetOldDir() == Actor::Direction::LeftStanding) ){
-		m_owner->SetDir(Actor::Direction::LeftStanding);
-	}else if(ifscan == false && (m_owner->GetOldDir() == Actor::Direction::Right || m_owner->GetOldDir() == Actor::Direction::RightStanding)){
-		m_owner->SetDir(Actor::Direction::RightStanding);
+	if(m_owner->GetDir() != Actor::Direction::Jump){
+		if(ifscan == false && (m_owner->GetOldDir() == Actor::Direction::Left || m_owner->GetOldDir() == Actor::Direction::LeftStanding|| m_owner->GetOldDir() == Actor::Direction::LeftUp || m_owner->GetOldDir() == Actor::Direction::LeftDown) ){
+			m_owner->SetDir(Actor::Direction::LeftStanding);
+		}else if(ifscan == false && (m_owner->GetOldDir() == Actor::Direction::Right || m_owner->GetOldDir() == Actor::Direction::RightStanding || m_owner->GetOldDir() == Actor::Direction::RightUp || m_owner->GetOldDir() == Actor::Direction::RightDown)){
+			m_owner->SetDir(Actor::Direction::RightStanding);
+		}
+		if(state[SDL_SCANCODE_K]){
+			m_owner->SetDir(Actor::Direction::Jump);
+			jumpacceleration += mMaxJumpAcc;
+			JumpInitSpeed = -1000.0f;
+			m_owner->SetUpAcc(jumpacceleration);
+			m_owner->SavePosition();
+    	}
 	}
-
 	//保存行走方向
-	if(m_owner->GetDir() == Actor::Direction::Left || m_owner->GetDir() == Actor::Direction::Right)
+	//if(m_owner->GetDir() == Actor::Direction::Left || m_owner->GetDir() == Actor::Direction::Right )
+	if( m_owner->GetDir() != Actor::Direction::Jump)
 	m_owner->CopyDir();
-    SetForwardSpeed(mRightSpeed,mDownSpeed);
+    SetForwardSpeed(mRightSpeed,mDownSpeed,JumpInitSpeed);
     
 }
 InputComponent::~InputComponent()

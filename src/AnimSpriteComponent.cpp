@@ -37,6 +37,10 @@ void AnimSpriteComponent::Update(float deltaTime)
 			case Actor::Direction::RightStanding:
 				mCurrFrame = mAnimTextures.size()/4-1;
 				break;	
+			case Actor::Direction::Jump:
+				std::cout << "jump!" <<"Old Dir:" << m_owner->GetOldDir() << std::endl;
+				mCurrFrame = (m_owner->GetOldDir() == Actor::Direction::LeftStanding)? mAnimTextures.size()*3/4-3:(mAnimTextures.size()/4);
+				break;
 		}
 		// Set the current texture
 		SetTexture(mAnimTextures[static_cast<int>(mCurrFrame)]);
